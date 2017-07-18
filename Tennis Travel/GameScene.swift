@@ -32,6 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var player1Named = ""
     var player2Named = ""
     var randomIndex: UInt32 = 0
+    var backgroundMusic: SKAudioNode!
     
     //Setting up the game board (the ball, the players, etc.)
     override func didMove(to view: SKView)
@@ -51,6 +52,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         makeTopPlayerScoreBoard()
         makeBottomPlayerScoreBoard()
         self.view?.isPaused = true
+        if let musicURL = Bundle.main.url(forResource: "music", withExtension: "wav") {
+            backgroundMusic = SKAudioNode(url: musicURL)
+            addChild(backgroundMusic)
+        }
     }
     
     //Checks if the screen has been touched, and when screen is touched the game starts and the players move to the spot in the end zone that was touched
@@ -88,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
     }
     
-    //Checks if a touch is dragged across the endzone and moves the players to the spot
+    //Checks if a touch is dragged across the endzone and moves the players to that spot
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         for touch in touches
@@ -106,7 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
     }
     
-    //Checks if the balls the top endzone and if it does it gives the bottom player an extra point and follows the scoring in tennis (and plays a miss sound)
+    //Checks if the ball has hit the top endzone and if it has it gives the bottom player an extra point and follows the scoring in tennis (and plays a miss sound)
     func didBegin(_ contact: SKPhysicsContact)
     {
         let bodyAName = contact.bodyA.node?.name
@@ -143,12 +148,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 bottomPlayerScoreText = "Advantage"
                 topPlayerScoreText = " -- "
             }
+            //Checks if the player won the game
             if bottomPlayerScore >= 4 && bottomPlayerScore > (topPlayerScore + 1)
             {
                 bottomPlayerScoreText = "WON GAME \(game)!!!"
                 game += 1
                 bottomPlayerGamesWon += 1
                 bottomPlayerScoreBoard.text = "Player 2: " + String(bottomPlayerGamesWon)
+                //Checks if the player won the entire set and wins the game
                 if bottomPlayerGamesWon >= 6 && (bottomPlayerGamesWon == 7 || bottomPlayerGamesWon - 1 > topPlayerGamesWon) {
                     //                  WINNING ROUTINE!!!
                     run(SKAction.playSoundFileNamed("winning.wav", waitForCompletion: true))
@@ -161,8 +168,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             }
             if startOver == true
             {
-                scoreBoard.text = "Player 2 Has Won!!!"
-                scoreBoard2.text = "Click to Reset Game"
+                scoreBoard.text = "Player 2 Won!!!"
+                scoreBoard2.text = "Click to Reset"
             } else
             {
                 scoreBoard2.text = " \(bottomPlayerScoreText)"
@@ -170,7 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 run(SKAction.playSoundFileNamed("miss.wav", waitForCompletion: false))
             }
         }
-        //Checks if the balls hit the bottom endzone and if it does it gives the top player an extra point and follows the scoring in tennis (and plays a miss sound)
+        //Checks if the ball has hit the bottom endzone and if it has it gives the top player an extra point and follows the scoring in tennis (and plays a miss sound)
         if (bodyAName == "tennisBall" && bodyBName == "loseZone2") || (bodyAName == "loseZone2" && bodyBName == "tennisBall")
         {
             topPlayerScore += 1
@@ -203,12 +210,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 topPlayerScoreText = "Advantage"
                 bottomPlayerScoreText = " -- "
             }
+            //Checks if the player won the game
             if topPlayerScore >= 4 && topPlayerScore > (bottomPlayerScore + 1)
             {
                 topPlayerScoreText = "WON GAME \(game)!!!"
                 game += 1
                 topPlayerGamesWon += 1
                 topPlayerScoreBoard.text = "Player 1: " + String(topPlayerGamesWon)
+                //Check is the player won the enire set and wins the game
                 if topPlayerGamesWon >= 6 && (topPlayerGamesWon == 7 || topPlayerGamesWon - 1 > bottomPlayerGamesWon) {
                     //                  WINNING ROUTINE!!!
                     run(SKAction.playSoundFileNamed("winning.wav", waitForCompletion: true))
@@ -221,15 +230,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             }
             if startOver == true
             {
-                scoreBoard.text = "Player 1 Has Won!!!"
+                scoreBoard.text = "Player 1 Won!!!"
                 scoreBoard2.text = "Click to Reset"
-            //If the ball hits a player just play the hit sound
             } else {
                 scoreBoard.text = " \(topPlayerScoreText)"
                 scoreBoard2.text = " \(bottomPlayerScoreText)"
                 run(SKAction.playSoundFileNamed("miss.wav", waitForCompletion: false))
             }
         }
+        //If the ball hits a player just play the hit sound
         if (bodyAName == "tennisRacket1" || bodyBName == "tennisRacket1") || (bodyAName == "tennisRacket2" || bodyBName == "tennisRacket2")
         {
             if topPlayerScoreText == "WON GAME \(game - 1)!!!" || bottomPlayerScoreText == "WON GAME \(game - 1)!!!"
@@ -312,8 +321,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         tennisRacket1.name = "tennisRacket1"
         tennisRacket1.physicsBody = SKPhysicsBody(rectangleOf: tennisRacket1.size)
         tennisRacket1.physicsBody?.isDynamic = false
-        //Generates a random number between 0 and 7
-        randomIndex = arc4random_uniform(8)
+        randomIndex = arc4random_uniform(8)//Generates a random number between 0 and 7
         switch(randomIndex)
         {
         case 0 : player1Named = "Hulk-icon"
@@ -417,7 +425,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         addChild(bottomPlayerScoreBoard)
     }
     
-    //Resets all the game variables and score boards ONLY when the variable startOver = true
+    //Resets all the game variables and score boards (this function get called ONLY when the variable startOver = true)
     func resetGame()
     {
         topPlayerScore = 0

@@ -21,6 +21,7 @@
 		94C975BF1F11BEA60057A19B /* hit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 94C975BC1F11BEA60057A19B /* hit.wav */; };
 		94C975C01F11BEA60057A19B /* tada.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 94C975BD1F11BEA60057A19B /* tada.mp3 */; };
 		94C975C11F11BEA60057A19B /* miss.wav in Resources */ = {isa = PBXBuildFile; fileRef = 94C975BE1F11BEA60057A19B /* miss.wav */; };
+		94EEF9F11F1D931400E31217 /* music.wav in Resources */ = {isa = PBXBuildFile; fileRef = 94EEF9F01F1D931400E31217 /* music.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		94C975BC1F11BEA60057A19B /* hit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hit.wav; sourceTree = "<group>"; };
 		94C975BD1F11BEA60057A19B /* tada.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tada.mp3; sourceTree = "<group>"; };
 		94C975BE1F11BEA60057A19B /* miss.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = miss.wav; sourceTree = "<group>"; };
+		94EEF9F01F1D931400E31217 /* music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = music.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 			children = (
 				94C975BC1F11BEA60057A19B /* hit.wav */,
 				94C975BD1F11BEA60057A19B /* tada.mp3 */,
+				94EEF9F01F1D931400E31217 /* music.wav */,
 				94C975BE1F11BEA60057A19B /* miss.wav */,
 				94C2FA841F12DCE90074C345 /* winning.wav */,
 				20EC1AE21F0553E9001EEDEB /* AppDelegate.swift */,
@@ -260,6 +263,7 @@
 				20EC1AE51F0553E9001EEDEB /* GameScene.sks in Resources */,
 				20EC1AF01F0553E9001EEDEB /* Assets.xcassets in Resources */,
 				20EC1AF31F0553E9001EEDEB /* LaunchScreen.storyboard in Resources */,
+				94EEF9F11F1D931400E31217 /* music.wav in Resources */,
 				20EC1AE71F0553E9001EEDEB /* Actions.sks in Resources */,
 				94C2FA851F12DCE90074C345 /* winning.wav in Resources */,
 				94C975C01F11BEA60057A19B /* tada.mp3 in Resources */,
